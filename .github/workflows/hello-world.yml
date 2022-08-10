@@ -81,7 +81,7 @@ jobs:
         run: chmod +x ci/unit-test-app.sh && ci/unit-test-app.sh
   Build:
       runs-on: ubuntu-latest
-      needs: Clone-down
+      needs: Test
       container: gradle:6-jdk11
       steps:
       - name: Download code
