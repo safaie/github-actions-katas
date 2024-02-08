@@ -1,17 +1,34 @@
+name: Main workflow
 on: push
 jobs:
   Build:
     runs-on: ubuntu-latest
     container: gradle:6-jdk11
     steps:
-      - name: Clone-down
-        uses: actions/checkout@v2       
+      - name: Clone down repository
+        uses: actions/checkout@v4       
       - name: Build application
-        run: chmod +x ci/build-app.sh && ci/build-app.sh
+        run: ci/build-app.sh
       - name: Test
-        run: chmod +x ci/unit-test-app.sh && ci/unit-test-app.sh
-      - name: Upload Repo
-        uses: actions/upload-artifact@v2
+        run: ci/unit-test-app.sh
+      - name: Upload repo
+        uses: actions/upload-artifact@v4
         with: 
           name: code
           path: .
+  Linting:
+    runs-on: ubuntu-latest
+    needs: [Build]
+    steps:
+      - name: Download code
+        uses: actions/download-artifact@v4
+        with:
+          name: code
+          path: .
+      - name: run linting
+        uses: super-linter/super-linter/slim@v5 
+        env:
+          DEFAULT_BRANCH: main
+          # To report GitHub Actions status checks
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DISABLE_ERRORS: true   
