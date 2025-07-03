@@ -10,7 +10,7 @@
 
 Super-linter is a tool that can be used to lint your sourcecode. It is a combination of multiple linters, and can be used to lint multiple languages.
 
-It's invoced as a github action, and can be found on [Github Marketplace](https://github.com/super-linter/super-linter).
+It's invoked as a github action, and can be found on [Github Marketplace](https://github.com/super-linter/super-linter).
 
 In this exercise we will use it to lint our sourcecode in a separate job.
 
@@ -58,7 +58,7 @@ You can find more information around the different parameters via the [link to d
 
 - Create a linter job
 - Use the `actions/upload-artifact` and `actions/download-artifact`
-- Use `uper-linter/super-linter/slim` to lint your sourcecode
+- Use `super-linter/super-linter/slim` to lint your sourcecode
 
 ### Tasks
 
@@ -69,6 +69,7 @@ You can find more information around the different parameters via the [link to d
         with: 
           name: code
           path: .
+          include-hidden-files: true
 ```
 
 <details>
@@ -93,6 +94,7 @@ jobs:
         with: 
           name: code
           path: .
+          include-hidden-files: true
 ```
 
 </details>
@@ -129,7 +131,7 @@ We will now create a new job, which will use super-linter to lint our sourcecode
           name: code
           path: .
       - name: run linting
-        uses: super-linter/super-linter/slim@v5 
+        uses: super-linter/super-linter/slim@v7 
         env:
           DEFAULT_BRANCH: main
           # To report GitHub Actions status checks
@@ -170,7 +172,7 @@ It seems like we have some linting errors in our code. As this is not a python/b
 
 ```YAML
       - name: run linting
-        uses: super-linter/super-linter/slim@v5 
+        uses: super-linter/super-linter/slim@v7 
         env:
           DEFAULT_BRANCH: main
           # To report GitHub Actions status checks
